@@ -1110,31 +1110,63 @@ app.post('/admin/createBoard', upload.single("bg"), async (req, res) => {
 });
 app.post("/admin/createBoard", upload.single("background"), async (req, res) => {
   try {
-    const bgUrl = req.file ? `http://localhost:3000/uploads/boards/${req.file.filename}` : null;
-
     const {
       concept, fee, prize, contestants,
       open_from, open_to, vote_from, vote_to, result_date
     } = req.body;
 
-    const query = `
-      INSERT INTO boards 
-      (concept, fee, prize, contestants_count, open_from, open_to, vote_from, vote_to, result_date, background_url)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+    let backgroundUrl = null;
 
-    await db.execute(query, [
-      concept, fee, prize, contestants,
-      open_from, open_to, vote_from, vote_to,
-      result_date, bgUrl
-    ]);
+    /* ---------- 1. upload รูปไป Supabase Storage ---------- */
+    if (req.file) {
+      const fileExt = req.file.originalname.split(".").pop();
+      const fileName = `board_${Date.now()}.${fileExt}`;
+      const filePath = `boards/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("boards")              // ชื่อ bucket
+        .upload(filePath, req.file.buffer, {
+          contentType: req.file.mimetype
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from("boards")
+        .getPublicUrl(filePath);
+
+      backgroundUrl = data.publicUrl;
+    }
+
+    /* ---------- 2. insert ลง Supabase DB ---------- */
+    const { error: insertError } = await supabase
+      .from("boards")
+      .insert([{
+        concept,
+        fee,
+        prize,
+        contestants_count: contestants,
+        open_from,
+        open_to,
+        vote_from,
+        vote_to,
+        result_date,
+        background_url: backgroundUrl
+      }]);
+
+    if (insertError) throw insertError;
 
     res.json({ success: true });
+
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
+    console.error("❌ createBoard error:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
   }
 });
+
 
 app.get("/boards/latest", async (req, res) => {
     const { data, error } = await supabase
@@ -2430,7 +2462,6 @@ app.get("/payments/voters/:payment_id", async (req, res) => {
 
 
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });

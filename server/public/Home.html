@@ -136,13 +136,23 @@
 /* กล่อง popup */
 .popup-content {
   position: relative;
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 95%;
+  max-height: 90vh;
   overflow-y: auto;           /* ⭐ scrollbar */
   background: #000;
   padding: 20px;
   border-radius: 12px;
 }
+@media (max-width: 480px) {
+  .popup-title {
+    font-size: 18px;
+  }
+
+  .close-btn {
+    font-size: 26px;
+  }
+}
+
 
 /* รูปใน popup */
 .popup-content img {
@@ -441,6 +451,112 @@
 }
 .howto-hover {
   cursor: pointer;
+}
+/* =========================
+   📱 MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+
+  /* ===== NAVBAR ===== */
+  .navbar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav-left {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav-item {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  /* ===== BANNER ===== */
+  .banner-slider,
+  .banner-slider img {
+    height: 220px;
+  }
+
+  /* ===== ICON CIRCLE ===== */
+  .icon-section {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .icon-box {
+    width: 120px;
+    height: 120px;
+  }
+
+  .icon-label {
+    font-size: 14px;
+  }
+
+  /* ===== SECTION BOX ===== */
+  .section-box {
+    width: 92%;
+    padding: 24px;
+    margin: 40px auto;
+  }
+
+  .section-title {
+    font-size: 22px;
+  }
+
+  /* ===== FLEX CONTENT ===== */
+  .box-flex {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .box-flex img,
+  .box-flex video,
+  .howto-hover,
+  .zoom-box {
+    width: 100%;
+  }
+
+  video {
+    max-width: 100%;
+  }
+
+  /* ===== RULES IMAGES ===== */
+  .rules-image-row {
+    flex-direction: column;
+  }
+
+  .rules-zoom-box {
+    width: 100%;
+  }
+
+  /* ===== SUPPORT ===== */
+  .support-links {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .support-card {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 768px) {
+  .popup-zoom-circle,
+  .rules-zoom-circle,
+  .zoom-frame {
+    display: none !important;
+  }
+}
+@media (max-width: 768px) {
+  .rules-text {
+    font-size: 14px;
+  }
+
+  .rules-text h3 {
+    font-size: 16px;
+  }
 }
 
   </style>

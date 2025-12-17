@@ -6,128 +6,115 @@
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-body { 
+body {
   font-family: 'Prompt', sans-serif;
-  background:#000000; 
-  padding:20px; 
+  background: #000000;
+  padding: 20px;
+  margin: 0;
 }
 
-/* ---------------- POPUP STYLE ---------------- */
+/* ---------------- POPUP ---------------- */
 #popupModal {
   position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
+  inset: 0;
   background: rgba(23, 39, 56, 0.7);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 16px;
 }
 
 #popupBox {
-  background:#1b2538;
-  padding:25px 30px;
-  border-radius:14px;
-  min-width:300px;
-  max-width:90%;
-  color:white;
-  text-align:center;
-  box-shadow:0 0 15px rgba(52,239,230,0.35);
-  border:2px solid rgba(52,239,230,0.5);
+  background: #1b2538;
+  padding: 22px;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  color: white;
+  box-shadow: 0 0 15px rgba(52,239,230,0.35);
+  border: 2px solid rgba(52,239,230,0.5);
 }
 
 .popup-btn {
-  margin-top:16px;
-  padding:10px 22px;
-  background:#34efe6;
-  border:none;
-  border-radius:8px;
-  color:black;
-  font-weight:600;
-  cursor:pointer;
-  transition:0.2s;
+  margin-top: 16px;
+  padding: 10px 22px;
+  background: #34efe6;
+  border: none;
+  border-radius: 8px;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-.popup-btn:hover {
-  background:#21c3bb;
-  color:white;
-}
-
-/* ---------------- ARTWORK GRID ---------------- */
+/* ---------------- GRID ---------------- */
 #artworkList {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
+/* ---------------- CARD ---------------- */
 .art-box {
-  background:rgba(20,25,40,0.9);
-  padding:20px;
-  border-radius:20px;
-  border:3px solid #1f2a44;
-  box-shadow:0 0 15px rgba(0,255,255,0.18);
-  transition:0.25s;
-  cursor:pointer;
-  text-align:center;
-  color:#34efe6;
+  background: rgba(20,25,40,0.9);
+  padding: 18px;
+  border-radius: 18px;
+  border: 3px solid #1f2a44;
+  box-shadow: 0 0 15px rgba(0,255,255,0.18);
+  transition: 0.25s;
+  cursor: pointer;
+  text-align: center;
+  color: #34efe6;
+  position: relative;
 }
 
 .art-box:hover {
-  transform:scale(1.03);
+  transform: scale(1.03);
 }
 
 .art-box img {
-  width:100%;
-
-  margin-bottom:10px;
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 10px;
 }
 
+/* ---------------- TEXT ---------------- */
 .title {
-  font-size:18px;
-  font-weight:700;
-  margin-bottom:6px;
-  color:#34efe6;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
 }
 
 .vote-btn {
-  margin-top:12px;
-  padding:8px 16px;
-  background:#34efe6;
-  color:#262b3e;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: #34efe6;
+  color: #262b3e;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
-.vote-btn:hover {
-  background:#262b3e;
-  color:#ffffff;
-}
+
+/* ---------------- VOTERS ---------------- */
 .voters {
   margin-top: 10px;
   display: flex;
   gap: 6px;
   justify-content: center;
-  align-items: center; /* ให้ avatar อยู่ตรงกลางแนวตั้ง */
+  flex-wrap: wrap;
 }
 
 .voter-avatar {
-  width: 28px;              /* ขนาดภาพ */
+  width: 28px;
   height: 28px;
-  min-width: 28px;          /* ป้องกัน flex ขยาย */
-  min-height: 28px;
-  max-width: 28px;          /* ป้องกัน flex ขยาย */
-  max-height: 28px;
-  border-radius: 100%;       /* ทำให้เป็นวงกลม */
-  object-fit: cover;        /* ครอบภาพเต็มวงกลม */
-  object-position: center;  /* จัดตรงกลาง */
+  border-radius: 50%;
+  object-fit: cover;
   border: 2px solid #34efe6;
-  cursor: pointer;
-  display: block;           /* ป้องกัน flex ยืด */
-}
-.art-box {
-  position: relative;
 }
 
+/* ---------------- OVERLAY ---------------- */
 .art-overlay {
   position: absolute;
   inset: 0;
@@ -135,18 +122,68 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   color: #ffffff;
   opacity: 0;
   transition: 0.25s;
-  border-radius: 20px;
+  border-radius: 18px;
 }
 
 .art-box:hover .art-overlay {
   opacity: 1;
 }
 
+/* =========================
+   📱 RESPONSIVE
+========================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  #artworkList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  body {
+    padding: 12px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  #artworkList {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .art-box {
+    padding: 14px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  /* popup layout ซ้อนแนวตั้ง */
+  #popupBox > div:first-child {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+  }
+
+  #popupBox img {
+    max-height: 40vh;
+    object-fit: contain;
+  }
+
+  .popup-btn {
+    width: 100%;
+  }
+}
 </style>
 </head>
 
@@ -219,7 +256,7 @@ if (list.length > 0) {
 
     if (list.length === 0) {
       document.getElementById("artworkList").innerHTML =
-        `<div style="padding:20px;color:#777;">ขออภัย ผู้ที่ไม่ได้สมัคร concept นี้จะไม่สามารถโหวตไว้</div>`;
+        `<div style="padding:20px;color:#777;">ขออภัย concept ไม่มีผู้สมัคร</div>`;
       return;
     }
 
