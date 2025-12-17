@@ -258,7 +258,7 @@ body{
       const id_token = response.credential;
 
       try {
-        const res = await fetch("http://gen-ai-cypher.onrender.com/auth/google", {
+        const res = await fetch("https://gen-ai-cypher.onrender.com/auth/google", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id_token, mode: currentMode })
@@ -338,7 +338,7 @@ body{
       }
     }
 
-    const API_BASE = "http://gen-ai-cypher.onrender.com";
+    const API_BASE = "https://gen-ai-cypher.onrender.com";
   </script>
 
 </body>
