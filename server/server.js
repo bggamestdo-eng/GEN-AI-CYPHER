@@ -1,13 +1,19 @@
 // server.js
+
+
 import express from "express";
 import cors from "cors";
 import { OAuth2Client } from "google-auth-library";
 import { createClient } from "@supabase/supabase-js";
 import multer from "multer";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const SUPABASE_URL = "https://xyaenmrwpwbrwxbgmwck.supabase.co";
 const SUPABASE_KEY =
@@ -21,10 +27,13 @@ const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 const upload = multer();
 
 
-
+app.use(express.static(path.join(__dirname, "public")));
 /* -------------------------- Auth -------------------------- */
 
 /* -------------------------- Google Auth -------------------------- */
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "Home.html"));
+});
 
 app.post("/auth/google", async (req, res) => {
   try {
@@ -2420,7 +2429,8 @@ app.get("/payments/voters/:payment_id", async (req, res) => {
 
 
 
-const PORT = 3000;
-app.listen(PORT, () =>
-  console.log(`🚀 Server running at http://localhost:${PORT}`)
-);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
