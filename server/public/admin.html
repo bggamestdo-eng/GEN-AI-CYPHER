@@ -281,7 +281,7 @@
 
 <script>
   
-const API_BASE = "http://localhost:3000";
+const API_BASE = "http://gen-ai-cypher.onrender.com";
 const paymentTable = document.getElementById("paymentTable");
 const statusFilter = document.getElementById("statusFilter");
 const refreshBtn = document.getElementById("refreshBtn");
@@ -755,7 +755,7 @@ function goBack() {
 
 
 async function loadBoardsTable() {
-    const res = await fetch("http://localhost:3000/boards");
+    const res = await fetch("http://gen-ai-cypher.onrender.com/boards");
     const boards = await res.json();
 
     const table = document.querySelector("#boardsTable tbody");
@@ -1332,7 +1332,7 @@ function openViewBankInfo(paymentIdEncoded) {
 async function adminRequestBankInfo(paymentId) {
   if (!paymentId) return alert("missing paymentId");
 
-  const res = await fetch("http://localhost:3000/payments/request-bank-info", {
+  const res = await fetch("http://gen-ai-cypher.onrender.com/payments/request-bank-info", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ payment_id: paymentId })
