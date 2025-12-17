@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Payment</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Prompt', sans-serif;
+  background:#0b0f1a;
+  margin:0;
+  padding:0;
+  color:white;
+}
+.slip-wrapper {
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+
+}
+
+.slip-img {
+  width:320px;
+  max-width:60%;
+  cursor:pointer;
+  border-radius:14px;
+  transition:0.25s;
+}
+.slip-img:hover {
+  transform:scale(1.05);
+}
+
+.artwork-wrapper {
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+}
+
+.artwork-img {
+  width:320px;
+  max-width:50%;
+  cursor:pointer;
+  border-radius:14px;
+  transition:0.25s;
+}
+
+
+.artwork-img:hover {
+  transform:scale(1.05);
+}
+
+/* ========================= NAVBAR ========================= */
+.navbar {
+
+  background:#262b3e;
+  padding:10px 20px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.nav-left {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:1;
+}
+
+.nav-left a {
+  text-decoration:none;
+  padding:8px 16px;
+  border-radius:8px;
+  font-size:15px;
+  font-weight:500;
+}
+
+/* Home button */
+.nav-left .home-btn {
+  background:#34efe6;
+  color:black;
+}
+.nav-left .home-btn:hover {
+  background:#292f3f;
+  color:white;
+}
+
+/* all menu */
+.nav-left .menu-btn {
+  color:white;
+}
+.nav-left .menu-btn:hover {
+  background:#ffffff33;
+}
+
+.nav-right {
+  margin-left:auto;
+}
+
+.nav-right a {
+  text-decoration:none;
+  padding:8px 16px;
+  border-radius:8px;
+  background:#373d4d;
+  color:white;
+  font-size:15px;
+}
+.nav-right a:hover {
+  background:white;
+  color:#373d4d;
+}
+
+/* ========================= CONTENT WRAPPER ========================= */
+.container {
+  max-width:1500px;
+  padding:30px;
+  margin:auto;
+}
+
+/* Title */
+h2 {
+  text-align:center;
+  margin-bottom:24px;
+  font-size:40px;
+  color:#34efe6;
+}
+
+/* ========================= CARD STYLE ========================= */
+.card-box {
+  background:rgba(20,25,40,0.95);
+  border-radius:20px;
+  padding:26px;
+  border:1px solid #1f2a44;
+  box-shadow:0 0 15px rgba(0,255,255,0.18);
+}
+
+/* ========================= ROW 1 ========================= */
+.row1 {
+  display:flex;
+  gap:30px;
+  margin-bottom:20px;
+}
+
+.left-box, .right-preview {
+  flex:1;
+  min-height:600px;
+}
+
+.left-box {
+  background:rgba(20,25,40,0.95);
+  
+}
+
+/* Preview Card */
+.preview-frame {
+  width:100%;
+
+  border-radius:20px;
+
+
+
+}
+
+.preview-inner {
+  width:100%;
+
+  border-radius:14px;
+  overflow:hidden;
+
+}
+
+/* ========================= ROW 2 ========================= */
+.row2 {
+  text-align:center;
+  margin:40px 0 20px 0;
+}
+
+.row2 img {
+  width:320px;
+  cursor:pointer;
+  transition:0.25s;
+  border-radius:14px;
+  position: center;
+  
+}
+.row2 img:hover {
+  transform:scale(1.05);
+  
+}
+
+#previewArtwork {
+  width:100%;
+  border-radius:14px;
+  margin-top:12px;
+  display:none;
+  border:2px solid #1f2a44;
+  box-shadow:0 0 15px rgba(0,255,255,0.25);
+}
+
+/* ========================= ROW 3 ========================= */
+.row3 {
+  display:flex;
+  gap:26px;
+  margin-top:10px;
+}
+
+.left-bottom-box, .right-slip-box {
+  flex:1;
+  padding:26px;
+  border-radius:20px;
+  background:rgba(20,25,40,0.95);
+  border:1px solid #1f2a44;
+  box-shadow:0 0 15px rgba(0,255,255,0.18);
+
+}
+
+.right-slip-box img.trigger-img {
+  width:320px;
+  cursor:pointer;
+  border-radius:12px;
+  transition:0.25s;
+}
+.right-slip-box img.trigger-img:hover {
+  transform:scale(1.05);
+}
+
+#previewSlip {
+  width:200px;
+  margin-top:10px;
+  border-radius:14px;
+  display:none;
+  border:2px solid #1f2a44;
+  box-shadow:0 0 15px rgba(0,255,255,0.25);
+}
+
+/* ========================= BUTTON ========================= */
+#uploadBtn {
+  margin-top:30px;
+  width:100%;
+  padding:16px;
+  background:#34efe6;
+  color:black;
+  border:none;
+  border-radius:14px;
+  font-size:17px;
+  cursor:pointer;
+  transition:0.25s;
+  font-weight:600;
+}
+#uploadBtn:hover {
+  background:white;
+  color:#1f2230;
+}
+
+/* ========================= INPUT ========================= */
+label { display:block; margin-top:10px; font-weight:600; }
+
+input[type="text"], textarea {
+  width:96%;
+
+  border-radius:10px;
+  border:1px solid #1f2a44;
+  background:rgba(255,255,255,0.9);
+  font-size:15px;
+  margin-top:4px;
+}
+
+/* ========================= POPUP ========================= */
+#popupModal {
+  display:none; 
+  position:fixed; 
+  inset:0;
+  background:rgba(23, 39, 56, 0.7);   /* ✔ ตามที่ผู้ใช้ต้องการ */
+  justify-content:center; 
+  align-items:center;
+  z-index:9999;
+}
+
+#popupBox {
+  background:rgba(20,25,40,0.95);
+  padding:28px;
+  width:360px;
+  border-radius:20px;
+  text-align:center;
+  color:white;                       /* ✔ ตัวอักษรสีขาว */
+  border:1px solid #34efe6;
+  box-shadow:0 0 25px rgba(0,255,255,0.3);
+}
+
+#gotoProfileBtn {
+  margin-top:12px;
+  padding:10px 18px;
+  border:none;
+  border-radius:10px;
+  background:#0cc9e8;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:600;
+}
+#gotoProfileBtn:hover {
+  background:#34efe6;
+}
+
+.popup-btn {
+  margin-top:14px;
+  padding:10px 18px;
+  border:none;
+  border-radius:12px;
+  background:#34efe6;                /* ✔ ปุ่มสี #34efe6 */
+  color:black;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:600;
+  transition:0.25s;
+}
+.popup-btn:hover {
+  background:#1fdad2;                /* ✔ hover สีอื่น */
+}
+
+</style>
+</head>
+<body>
+
+<!-- ========================= NAVBAR ========================= -->
+<div class="navbar">
+  <div class="nav-left">
+    <a href="Home.html" class="home-btn">Home</a>
+    <a href="Contest.html" class="menu-btn">Contest</a>
+    <a href="Votes.html" class="menu-btn">Votes</a>
+    <a href="Contest results.html" class="menu-btn">Contest results</a>
+  </div>
+<div class="nav-right" id="navRight"></div>
+
+</div>
+
+<!-- ========================= CONTENT ========================= -->
+<div class="container">
+
+<h2>Apply & Payment</h2>
+
+<div class="row1">
+
+  <!-- LEFT BOX -->
+  <div class="left-box card-box" style= "height: 40px; width:100px;"  >
+    <b style="font-size:30px;">Submit an image to the contest</b>
+
+    <p style="font-size:25px;" > User : <span id="displayUsername" style= color:#34efe6; ></span> </p>
+
+    <p style="margin-top:10px; font-size:25px; " >
+      Contest concept :
+      <span id="displayConcept" style="color:#34efe6;"> </span>
+    </p>
+
+    <label style="font-size:20px;" >Image name</label>
+    <input type="text" id="artworkName" style= "height: 40px; padding: 10px;     background: rgba(16, 26, 44, 0.65);
+    border: 1px solid rgba(52, 239, 230, 0.4);
+    border-radius: 18px;
+    padding: 12px;
+    box-shadow: 0 0 20px rgba(52, 239, 230, 0.18);
+    backdrop-filter: blur(4px);
+    color: white;
+    font-family: 'Prompt', sans-serif; font-size: 20px;
+"  >
+
+    <label style="font-size:20px;" >Description</label>
+    <textarea id="artworkDetail" rows="3" style= "height: 100px; padding: 10px;     background: rgba(16, 26, 44, 0.65);
+    border: 1px solid rgba(52, 239, 230, 0.4);
+    border-radius: 18px;
+    padding: 12px;
+    box-shadow: 0 0 20px rgba(52, 239, 230, 0.18);
+    backdrop-filter: blur(4px);
+    color: white; font-family: 'Prompt', sans-serif;font-size: 18px"></textarea>
+  </div>
+
+  <!-- PREVIEW RIGHT -->
+  <div class="right-preview">
+    <div class="preview-frame">
+      <div id="selectedPreview" class="preview-inner"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ROW 2 -->
+<div class="row2">
+  <label style="font-size:25px; color:#34efe6; padding:10px;">Attach Image AI</label>
+
+  <div class="artwork-wrapper">
+      <img id="artworkTrigger" src="images/Payment/Attach.png" class="artwork-img">
+      <img id="previewArtwork" class="artwork-img" style="display:none;">
+      <input type="file" id="artworkFile" accept="image/*" style="display:none;">
+  </div>
+</div>
+
+<!-- ROW 3 -->
+<div class="row3">
+
+  <!-- PAY LEFT BOX -->
+  <div class="left-bottom-box">
+    <p  style="font-size:25px;" >ค่าสมัคร: <span id="displayFee" style="color:#34efe6; font-size:25px;"></span> บาท</p>
+
+    <label style="font-size:20px;" >อัปโหลดหลักฐานการชำระเงิน (โปรดอัปโหลดสลิปการชำระเงินทุกครั้ง)</label>
+
+    <img src="images/Payment/QR.jpg" style="width:50%; margin-left:150px; margin-right:50px; margin-top:50px; border-radius:12px;">
+<br><br>เลขที่อ้างอิง 004999208004985
+
+  </div>
+
+  <!-- SLIP RIGHT -->
+<div class="right-slip-box">
+    <label style="font-size:18px; color:#34efe6;">Attach Slip</label>
+
+    <div class="slip-wrapper">
+        <img id="slipTrigger" src="images/Payment/Attach slip.png" class="slip-img">
+        <img id="previewSlip" class="slip-img" style="display:none;">
+        <input type="file" id="slipInput" accept="image/*" style="display:none;">
+    </div>
+</div>
+
+
+</div>
+
+<button id="uploadBtn">Upload AI images</button>
+
+</div>
+
+<!-- POPUP -->
+<div id="popupModal">
+  <div id="popupBox">
+    <b>ผลงานของคุณถูกส่งไปแล้ว</b><br>
+    กรุณารอ Admin Approve 1–2 วัน<br><br>
+    ตรวจสอบสถานะได้ที่หน้า Profile
+    <br><br>
+    <button id="gotoProfileBtn">ไปที่หน้า Profile</button>
+  </div>
+</div>
+
+
+
+
+</html>
+
+
+<script>
+const API_BASE = "http://localhost:3000";
+const userId = localStorage.getItem("currentUserId");
+async function updateNavbar() {
+  const navRight = document.getElementById("navRight");
+
+  if (!userId) {
+    // ยังไม่ login
+    navRight.innerHTML = `<a href="SigninAndRegister.html">Sign in / Register</a>`;
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/users/info/${encodeURIComponent(userId)}`);
+    const data = await res.json();
+
+    if (res.ok && data.success && data.data) {
+      const name = data.data.name || "User";
+      navRight.innerHTML = `<a href="Profile.html">Profile : ${name}</a>`;
+    } else {
+      navRight.innerHTML = `<a href="Profile.html">Profile</a>`;
+    }
+  } catch (err) {
+    console.error("Error fetching profile name:", err);
+    navRight.innerHTML = `<a href="Profile.html">Profile</a>`;
+  }
+}
+
+// เรียกใช้งาน
+updateNavbar();
+
+async function loadUsername() {
+  if (!userId) {
+    document.getElementById("displayUsername").innerText = "(ไม่พบผู้ใช้)";
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/users/${userId}`);
+    const data = await res.json();
+
+    if (res.ok && data.success && data.user) {
+      document.getElementById("displayUsername").innerText = data.user.name;
+    } else {
+      document.getElementById("displayUsername").innerText = "(ไม่พบผู้ใช้)";
+    }
+  } catch (err) {
+    console.error(err);
+    document.getElementById("displayUsername").innerText = "(ไม่พบผู้ใช้)";
+  }
+}
+
+// เรียกฟังก์ชันโหลดชื่อ
+loadUsername();
+
+
+/* PREVIEW */
+function previewFile(input, imgId) {
+  const file = input.files[0];
+  if (file) {
+    const img = document.getElementById(imgId);
+    img.src = URL.createObjectURL(file);
+    img.style.display = "block";
+  }
+}
+
+document.getElementById("slipInput").addEventListener("change", e =>
+  previewFile(e.target, "previewSlip")
+);
+document.getElementById("artworkFile").addEventListener("change", e =>
+  previewFile(e.target, "previewArtwork")
+);
+
+/* UPLOAD */
+document.getElementById("uploadBtn").addEventListener("click", uploadSlip);
+
+async function uploadSlip() {
+  const uploadBtn = document.getElementById("uploadBtn");
+  uploadBtn.disabled = true;
+  uploadBtn.innerText = "Uploading...";
+
+  const slip = document.getElementById("slipInput").files[0];
+  if (!slip) {
+    showPopup("กรุณาเลือกรูปสลิปก่อนอัปโหลด");
+
+    uploadBtn.disabled = false;
+    uploadBtn.innerText = "Upload AI images";
+    return;
+  }
+
+  const form = new FormData();
+  form.append("user_id", userId);
+  form.append("concept", concept);
+  form.append("fee", Number(fee));
+  form.append("slip", slip);
+
+  form.append("artwork_name", document.getElementById("artworkName").value);
+  form.append("artworkDetail", document.getElementById("artworkDetail").value);
+
+  if (document.getElementById("artworkFile").files[0])
+    form.append("artwork_file", document.getElementById("artworkFile").files[0]);
+
+  try {
+    const res = await fetch(`${API_BASE}/payment/upload`, {
+      method: "POST",
+      body: form
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      showPopup("Upload failed กรุณาลองใหม่อีกครั้ง");
+      uploadBtn.disabled = false;
+      uploadBtn.innerText = "Upload AI images";
+      return;
+    }
+
+    document.getElementById("statusBox").innerHTML = "รอแอดมินอนุมัติ...";
+    document.getElementById("popupModal").style.display = "flex";
+
+  } catch (err) {
+    console.error(err);
+    showPopup("เกิดข้อผิดพลาด กรุณาลองอีกครั้ง");
+
+  }
+
+  uploadBtn.disabled = false;
+  uploadBtn.innerText = "Upload AI images";
+}
+
+/* ไปหน้า Profile */
+document.getElementById("gotoProfileBtn").addEventListener("click", () => {
+  window.location.href = "Profile.html";
+});
+
+/* โหลดข้อมูล */
+const concept = localStorage.getItem("selectedBoardConcept") || "";
+const fee = localStorage.getItem("contestPrice") || 0;
+
+document.getElementById("displayConcept").innerText = concept;
+document.getElementById("displayFee").innerText = fee;
+
+
+
+/* การ์ดด้านบน */
+const previewBox = document.getElementById("selectedPreview");
+
+const bg = localStorage.getItem("selectedBoardBg");
+const openDate = localStorage.getItem("selectedBoardOpen");
+const voteDate = localStorage.getItem("selectedBoardVote");
+const resultDate = localStorage.getItem("selectedBoardResult");
+const openFrom = localStorage.getItem("selectedBoardOpen") || "";
+const openTo = localStorage.getItem("selectedBoardTo") || "";
+const voteFrom = localStorage.getItem("selectedBoardVote") || "";
+const voteTo = localStorage.getItem("selectedBoardVoteTo") || "";
+
+
+previewBox.innerHTML = `
+  <div style="
+    width: 350px;
+    background: white;
+    border-radius: 0px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+  ">
+    <div style="
+      width:100%;
+      height:500px;
+      background-image:url('${bg}');
+      background-size:cover;
+      background-position:center;
+    "></div>
+
+    <div style="padding:15px; background:#2a2f45; color:white;">
+      <div><b>Contest concept :</b> ${concept}</div>
+      <div><b>Fee :</b> ${fee}฿</div>
+      <div>Apply : ${openFrom} - ${openTo}</div>
+      <div>Vote : ${voteFrom} - ${voteTo}</div>
+      <div><b>Result :</b> ${resultDate}</div>
+    </div>
+  </div>
+`;
+
+
+// คลิกที่รูป -> เปิด file picker
+document.getElementById("artworkTrigger").addEventListener("click", () => {
+  document.getElementById("artworkFile").click();
+});
+
+// เมื่อเลือกไฟล์ -> แสดงทับรูป Attach.png
+document.getElementById("artworkFile").addEventListener("change", function () {
+  const file = this.files[0];
+  if (file) {
+    const preview = document.getElementById("previewArtwork");
+    const triggerImg = document.getElementById("artworkTrigger");
+
+    preview.src = URL.createObjectURL(file);
+
+    // ซ่อนรูป Attach.png
+    triggerImg.style.display = "none";
+
+    // แสดงรูป preview
+    preview.style.display = "block";
+  }
+});
+// คลิกที่รูป -> เปิดกล่องเลือกสลิป
+document.getElementById("slipTrigger").addEventListener("click", () => {
+  document.getElementById("slipInput").click();
+});
+
+// เมื่อแนบสลิป -> แสดงทับ Attach slip.png
+document.getElementById("slipInput").addEventListener("change", function () {
+  const file = this.files[0];
+  if (file) {
+    const preview = document.getElementById("previewSlip");
+    const triggerImg = document.getElementById("slipTrigger");
+
+    preview.src = URL.createObjectURL(file);
+
+    // ซ่อนรูป Attach slip
+    triggerImg.style.display = "none";
+
+    // แสดงรูป preview สลิป
+    preview.style.display = "block";
+  }
+});
+function showPopup(message) {
+  document.getElementById("popupBox").innerHTML = `
+    <div style="font-size:18px; margin-bottom:12px;">${message}</div>
+    <button class="popup-btn" onclick="closePopup()">OK</button>
+  `;
+  document.getElementById("popupModal").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("popupModal").style.display = "none";
+}
+
+async function loadUsernameFromDB() {
+  const displayEl = document.getElementById("displayUsername");
+
+  if (!userId) {
+    displayEl.innerText = "(ไม่พบผู้ใช้)";
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/users/info/${encodeURIComponent(userId)}`);
+    const data = await res.json();
+
+    if (res.ok && data.success && data.data) {
+      displayEl.innerText = data.data.name || "(ไม่พบผู้ใช้)";
+    } else {
+      displayEl.innerText = "(ไม่พบผู้ใช้)";
+    }
+  } catch (err) {
+    console.error("Error fetching username:", err);
+    displayEl.innerText = "(ไม่พบผู้ใช้)";
+  }
+}
+
+// เรียกใช้
+loadUsernameFromDB();
+
+</script>
+
+</body>
+</html>
