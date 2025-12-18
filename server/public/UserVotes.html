@@ -293,9 +293,15 @@ for (const item of list) {
       โดย ${ownerName}
     </div>
 
-    <div style="margin-top:6px;">
-      Vote score : ${item.count_votes || 0}
-    </div>
+<div style="margin-top:12px;">
+  Vote score :
+  <span
+    id="grid-vote-score-${item.id}"
+    data-score="${item.count_votes || 0}"
+  >
+    ${item.count_votes || 0}
+  </span>
+</div>
 
   `;
   box.onclick = () => openDetailPopup(item, ownerName);
@@ -364,8 +370,35 @@ document.addEventListener("click", async (e) => {
     showPopup(data.msg || "โหวตไม่สำเร็จ");
     return;
   }
+// ===============================
+// 🔥 UPDATE VOTE SCORE (POPUP + GRID)
+// ===============================
+const popupScoreEl = document.getElementById(`vote-score-${payment_id}`);
+const gridScoreEl  = document.getElementById(`grid-vote-score-${payment_id}`);
 
-  showPopup("โหวตสำเร็จ");
+if (popupScoreEl) {
+  let score = Number(popupScoreEl.dataset.score || 0) + 1;
+  popupScoreEl.dataset.score = score;
+  popupScoreEl.textContent = score;
+}
+
+if (gridScoreEl) {
+  let score = Number(gridScoreEl.dataset.score || 0) + 1;
+  gridScoreEl.dataset.score = score;
+  gridScoreEl.textContent = score;
+}
+
+// 🔥 UPDATE VOTE SCORE REALTIME
+
+
+if (scoreEl) {
+  let currentScore = Number(scoreEl.dataset.score || 0);
+  currentScore += 1;
+
+  scoreEl.dataset.score = currentScore;
+  scoreEl.textContent = currentScore;
+}
+
   // อัปเดต avatar ผู้โหวตทันที
 
 
@@ -440,9 +473,15 @@ async function openDetailPopup(item, ownerName) {
           Vote
         </button>
 
-        <div style="margin-top:12px;">
-          Vote score : ${item.count_votes || 0}
-        </div>
+<div style="margin-top:6px;">
+  Vote score :
+  <span
+    id="popup-vote-score-${item.id}"
+    data-score="${item.count_votes || 0}"
+  >
+    ${item.count_votes || 0}
+  </span>
+</div>
 
         <div class="voters" style="margin-top:10px;justify-content:flex-start;">
           ${voters.map(v => {
