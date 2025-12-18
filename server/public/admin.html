@@ -54,7 +54,7 @@
 </style>
 </head>
 <body>
-
+<div id="adminApp" style="display:none;"></div>
 
 <h2>รายการชำระเงินที่รออนุมัติ</h2>
 
@@ -1377,8 +1377,29 @@ async function uploadEvidenceForPayment() {
     }
   } catch (e) { console.error(e); alert('Upload failed'); }
 }
+(function () {
+  const ADMIN_CODE = "4289";
 
+  // ถ้าเคยผ่านแล้ว
+  if (sessionStorage.getItem("admin_auth") === "ok") {
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("adminApp").style.display = "block";
+    });
+    return;
+  }
+
+  let input = prompt("🔐 กรุณากรอกรหัสเข้าใช้งาน Admin");
+
+  if (input === ADMIN_CODE) {
+    sessionStorage.setItem("admin_auth", "ok");
+    location.reload(); // โหลดใหม่เพื่อแสดงหน้า
+  } else {
+    alert("❌ รหัสไม่ถูกต้อง");
+    document.body.innerHTML = "<h2 style='text-align:center;margin-top:20vh;'>Access denied</h2>";
+  }
+})();
 
 </script>
+</div>
 </body>
 </html>
